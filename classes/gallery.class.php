@@ -1,20 +1,26 @@
 <?php
-class gallery{
+class Gallery{
     private $images;
     
     public function __construct(){
-        foreach (new DirectoryIterator("../originals") as $k => $v){
+        foreach (new DirectoryIterator("/opt/lampp/htdocs/Projet3/originals") as $k => $v){
             if ($v->isDot()) {continue;}
-            $a=$v->getPathname();
-            $b=$v->getFilename();
-            $i=new Image($a,$b);
-            $images[]=$i;
+                $a=$v->getPathname();
+                $b=$v->getFilename();
+                $i=new Image($a,$b);
+                $this->images[]=$i;
         }
     }
-    public function getImages():array{return $images;}
-    public function mini(){
-      
+    
+    public function display():string{
+        $s="";
+        foreach($this->images as $img){
+          $temp = $img->getResizedPath();
+            $s.='<'.'img src='.$temp.' alt='."image".'>'.'<br>';
+        }
+        return $s;
+    }
+    public function getImages():array{return $this->images;}
     }
 
-}
 ?>
